@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Encryption Encoder/Decoder</title>
+<link rel="icon" type="image/png" href="Hacker.png">
+  <style>
+    body { background: #111; color: #0f0; padding: 20px; text-shadow: 0 0 10px #00ff00;}
+    input, textarea, button { font-family: monospace; font-size: 20px; margin: 5px 0; width: 100%; }
+    button { cursor: pointer; }
+  /* Add this to your existing <style> tag */
+#matrix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* This pushes it BEHIND your buttons */
+}
+
+/* This makes your content sit on top clearly */
+body {
+  position: relative;
+  margin: 0;
+  overflow-x: hidden;
+}
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+  <h2 style="color: lime; font-family: monospace; font-size: 30px; text-shadow: 0 0 25px #0f0;">Encryption Encoder / Decoder</h2>
+  
+  <label style="color: lime; font-family: monospace; font-size: 15px; text-shadow: 0 0 5px #0f0;">Type your sentence:</label>
+  <textarea id="inputText" rows="3"></textarea>
+  
+  <button onclick="encodeText()">Encode</button>
+  <button onclick="decodeText()">Decode</button>
+  
+  <label style="color: lime; font-family: monospace; font-size: 15px; text-shadow: 0 0 5px #0f0;">Result:</label>
+  <textarea id="outputText" rows="3" readonly></textarea>
+
+  <script>
+    const encodeMap = {
+      "A":"!1","B":"@2","C":"#3","D":"$4","E":"%5",
+      "F":"^6","G":"&7","H":"*8","I":"(9","J":")0",
+      "K":"-1","L":"_2","M":"+3","N":"=4","O":"~5",
+      "P":"`6","Q":"{7","R":"}8","S":"[9","T":"]0",
+      "U":";1","V":":2","W":"'3","X":"\"4","Y":",5",
+      "Z":".6"," ":" ","1":"X*","2":"F#","3":"^&","4":"£G","5":"%W","6":"JJ","7":"F%","8":"U!","9":"^H","0":"BR"
+    };
+
+   
+    const decodeMap = {};
+    for (const key in encodeMap) {
+      decodeMap[encodeMap[key]] = key;
+    }
+
+    function encodeText() {
+  const text = document.getElementById("inputText").value.toUpperCase();
+  const outputField = document.getElementById("outputText");
+  let encoded = "";
+  
+  for (let ch of text) {
+    encoded += encodeMap[ch] || ch;
+  }
+
+  
+  let iterations = 0;
+  const chars = "!@#$%^&*()_+1234567890";
+  const interval = setInterval(() => {
+    outputField.value = encoded
+      .split("")
+      .map((char, index) => {
+        if (index < iterations) return encoded[index];
+        return chars[Math.floor(Math.random() * chars.length)];
+      })
+      .join("");
+
+    if (iterations >= encoded.length) clearInterval(interval);
+    iterations += 1;
+  }, 45); 
+}
+
+
+    function decodeText() {
+  const secret = document.getElementById("inputText").value;
+  const outputField = document.getElementById("outputText");
+  let decoded = "";
+  let i = 0;
+
+  
+  while (i < secret.length) {
+    const pair = secret.substring(i, i + 2);
+    if (decodeMap[pair]) {
+      decoded += decodeMap[pair];
+      i += 2;
+    } else {
+      decoded += secret[i];
+      i += 1;
+    }
+  }
+
+  
+  let iterations = 0;
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const interval = setInterval(() => {
+    outputField.value = decoded
+      .split("")
+      .map((char, index) => {
+       
+        if (index < iterations) {
+          return decoded[index];
+        }
+        return chars[Math.floor(Math.random() * chars.length)];
+      })
+      .join("");
+
+    if (iterations >= decoded.length) {
+      clearInterval(interval);
+    }
+    iterations += 1;
+  }, 45); 
+}
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%\"'#&_(),.;:?!\\|{}<>[]^~";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const rainDrops = Array(Math.floor(columns)).fill(1);
+function draw() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#0F0';
+  ctx.font = fontSize + 'px monospace';
+  for (let i = 0; i < rainDrops.length; i++) {
+    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+    ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+    if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      rainDrops[i] = 0;
+    }
+    rainDrops[i]++;
+  }
+}
+setInterval(draw, 30);
+
+  </script>
+</body>
+</html>
