@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Scanner V1.0</title>
+    <link rel="icon" type="image/png" href="Hacker.png">
+    <style>
+        body { background: #000; color: #0ff; font-family: monospace; padding: 20px; }
+        .glitch { text-shadow: 0 0 10px #0f0; font-size: 24px; }
+        .data-line { margin: 10px 0; border-left: 3px solid #0f0; padding-left: 10px; }
+        span { color: #fff; }
+#matrix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* This pushes it BEHIND your buttons */
+}
+
+/* This makes your content sit on top clearly */
+body {
+  position: relative;
+  margin: 0;
+  overflow-x: hidden;
+}
+    </style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+    <h2 style="color: Cyan; font-family: monospace; font-size: 35px; text-align: center; text-shadow: 0 0 10px #0ff;" class="data-line" class="glitch">[ SYSTEM SCANNER V1.0 ]</h2>
+
+    <div id="results">
+        <p style="color: Cyan; font-family: monospace; font-size: 25px; text-align: center; text-shadow: 0 0 10px #0ff;" class="data-line">Target OS: <span id="os">Scanning...</span></p>
+        <p style="color: Cyan; font-family: monospace; font-size: 25px; text-align: center; text-shadow: 0 0 10px #0ff;" class="data-line">Browser Engine: <span id="browser">Scanning...</span></p>
+        <p style="color: Cyan; font-family: monospace; font-size: 25px; text-align: center; text-shadow: 0 0 10px #0ff;" class="data-line">Battery Level: <span id="battery">Scanning...</span></p>
+        <p style="color: Cyan; font-family: monospace; font-size: 25px; text-align: center; text-shadow: 0 0 10px #0ff;" class="data-line">Connection Latency: <span id="ping">Calculating...</span></p>
+        <p style="color: Cyan; font-family: monospace; font-size: 25px; text-align: center; text-shadow: 0 0 10px #0ff;" class="data-line">System Time: <span id="time">Fetching...</span></p>
+        <p style="color: Cyan; font-family: monospace; font-size: 25px; text-align: center; text-shadow: 0 0 10px #0ff;" class="data-line">Processor Cores: <span id="cores">Scanning...</span></p>
+        <p style="color: Cyan; font-family: monospace; font-size: 25px; text-align: center; text-shadow: 0 0 10px #0ff;" class="data-line">System RAM: <span id="ram">Scanning...</span></p>
+        <p style="color: Cyan; font-family: monospace; font-size: 25px; text-align: center; text-shadow: 0 0 10px #0ff;" class="data-line">Display Res: <span id="res">Scanning...</span></p>
+        <p style="color: Cyan; font-family: monospace; font-size: 25px; text-align: center; text-shadow: 0 0 10px #0ff;" class="data-line">Link Quality: <span id="net">Scanning...</span></p>
+
+    </div>
+
+    <script>
+        // 1. Get Browser and OS Info
+        document.getElementById('os').innerText = navigator.platform;
+        document.getElementById('browser').innerText = navigator.vendor + " " + navigator.appName;
+
+        // 2. Get Battery Info (This is the coolest part!)
+        if (navigator.getBattery) {
+            navigator.getBattery().then(function(battery) {
+                function updateBattery() {
+                    document.getElementById('battery').innerText = (battery.level * 100) + "%";
+                }
+                updateBattery();
+                battery.addEventListener('levelchange', updateBattery);
+            });
+        } else {
+            document.getElementById('battery').innerText = "Access Denied";
+        }
+
+        // 3. System Time
+        setInterval(() => {
+            document.getElementById('time').innerText = new Date().toLocaleTimeString();
+        }, 1000);
+        
+        // 4. Fake "Ping" to look high-tech
+        setInterval(() => {
+            document.getElementById('ping').innerText = Math.floor(Math.random() * 50 + 20) + "ms";
+        }, 2000);
+
+        document.getElementById('cores').innerText = navigator.hardwareConcurrency + " Cores";
+document.getElementById('ram').innerText = (navigator.deviceMemory || "Unknown") + " GB";
+
+        document.getElementById('res').innerText = screen.width + "x" + screen.height + " (" + screen.colorDepth + "-bit)";
+
+        if (navigator.connection) {
+    document.getElementById('net').innerText = navigator.connection.effectiveType.toUpperCase();
+} else {
+    document.getElementById('net').innerText = "ENCRYPTED";
+}
+
+
+
+</script>    
+
+<script>
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%\"'#&_(),.;:?!\\|{}<>[]^~";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const rainDrops = Array(Math.floor(columns)).fill(1);
+function draw() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#0F0';
+  ctx.font = fontSize + 'px monospace';
+  for (let i = 0; i < rainDrops.length; i++) {
+    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+    ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+    if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      rainDrops[i] = 0;
+    }
+    rainDrops[i]++;
+  }
+}
+setInterval(draw, 30);
+
+
+        
+    </script>
+</body>
+</html>
