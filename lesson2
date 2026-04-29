@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>Training Program: Level 2</title>
+<link rel="icon" type="image/png" href="MySymbol.png">
+
+<style>
+  /* THEME: DARK MODE */
+  body { 
+      font-family: monospace; 
+      background-color: #111; 
+      color: #0f0;            
+      padding: 40px; 
+      text-align: center;
+  }
+
+  /* THE BOX STYLE */
+  .terminal-box { 
+      border: 2px dashed #0f0; 
+      padding: 20px; 
+      margin-top: 30px;
+      background: #000;
+  }
+
+  /* RED TEXT CLASS */
+  .danger { color: red; font-weight: bold; }
+
+  /* FIXED BUTTON STYLES (MATCHING LESSON 1) */
+  a { 
+      color: #0f0;               /* Green Text */
+      text-decoration: none; 
+      border: 2px solid #0f0;    /* Green Border */
+      padding: 10px 20px; 
+      font-weight: bold;
+      display: inline-block;
+      margin: 10px;
+      transition: 0.3s;          /* Makes the color change smooth */
+  }
+  
+  /* HOVER EFFECT: FLIP TO GREEN BACKGROUND */
+  a:hover { 
+      background: #0f0;          /* Green Background */
+      color: #000;               /* Black Text */
+      cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h1>MODULE 2: THE SKIN</h1>
+<p>System check... Visuals are operational.</p>
+
+<div class="terminal-box">
+    <h3>OBJECTIVE: MASTER THE COLORS</h3>
+    <p>HTML puts things on the screen. <strong>CSS</strong> decides what they look like.</p>
+    <br>
+    <p>We change colors using <span class="danger">HEX CODES</span>:</p>
+    <p>#000 = Black</p>
+    <p>#FFF = White</p>
+    <p>#0F0 = Bright Green</p>
+    <p>#F00 = <span class="danger">Bright Red</span></p>
+</div>
+
+<br><br>
+<h3>YOUR MISSION</h3>
+<p>1. Open this file in your code editor.</p>
+<p>2. Find the <code>body</code> style at the top.</p>
+<p>3. Change <code>color: #0f0;</code> to <code>color: #00f;</code> to hack the system into <strong>BLUE MODE</strong>.</p>
+
+<br><br><br>
+<!-- NAVIGATION LINKS -->
+<a href="lesson1.html">PREVIOUS LEVEL</a>
+<a href="index.html">RETURN TO BASE</a>
+
+</body>
+</html>
