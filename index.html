@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ZachFire's Coding Database</title>
+<link rel="icon" type="image/png" href="MySymbol.png">
+
+<style>
+/* GLOBAL STYLES */
+body { font-family: monospace; background: #111; color: #f00; padding: 20px; margin: 0; overflow-x: hidden; }
+input, button { font-family: monospace; font-size: 20px; margin: 10px 0; width: 100%; box-sizing: border-box; }
+button { cursor: pointer; transition: 0.3s; }
+
+/* MATRIX BACKGROUND */
+#matrix { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
+
+/* LOGIN SYSTEM STYLES */
+#login-screen {
+    text-align: center;
+    margin-top: 100px;
+    border: 2px solid #0f0;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 40px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 20px #0f0;
+}
+
+input {
+    background: #000;
+    color: #0f0;
+    border: 1px solid #0f0;
+    padding: 15px;
+}
+
+.login-btn {
+    background: #0f0;
+    color: #000;
+    border: none;
+    padding: 15px;
+    font-weight: bold;
+}
+.login-btn:hover { background: #fff; }
+
+/* REQUEST BUTTON STYLE */
+.req-btn {
+    background: transparent;
+    border: 1px solid #0f0;
+    color: #0f0;
+    font-size: 14px;
+    margin-top: 15px;
+}
+.req-btn:hover {
+    background: rgba(0, 255, 0, 0.2);
+}
+
+/* MAIN SITE (Hidden by default) */
+#main-content { display: none; }
+
+/* USER BADGE (Top Right) */
+#agent-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 1px solid #0f0;
+    padding: 5px 10px;
+    color: #0f0;
+    font-size: 14px;
+    display: none;
+}
+</style>
+</head>
+<body>
+    
+<canvas id="matrix"></canvas>
+
+<!-- THE NEW LOGIN SCREEN -->
+<div id="login-screen">
+  <h1 style="color: #fff; text-shadow: 0 0 10px #fff;">IDENTITY VERIFICATION</h1>
+  <p style="color: #0f0;">SECURE CONNECTION ESTABLISHED</p>
+  
+  <!-- INPUTS -->
+  <input type="text" id="agent-name" placeholder="ENTER CODENAME / EMAIL...">
+  <input type="password" id="pass-input" placeholder="ENTER SECURITY KEY...">
+  
+  <button class="login-btn" onclick="attemptLogin()">AUTHENTICATE</button>
+  
+  <!-- REQUEST ACCESS -->
+  <button style="font-size: 16px; margin-top: 20px;" onclick="requestAccess()">[ REQUEST ACCOUNT CREATION ]</button>
+  <h1 style="color: lime; font-size: 14px;">SECURE SERVER: PASSWORDS ARE ENCRYPTED.</h1>
+  <p id="error-msg" style="color: red; margin-top: 15px;"></p>
+</div>
+
+<!-- THE REAL SITE -->
+<div id="main-content">
+  
+  <!-- AGENT BADGE -->
+  <div id="agent-badge">
+      LOGGED IN: <span id="badge-name">UNKNOWN</span> 
+      <button onclick="logout()" style="font-size: 12px; padding: 2px; width: auto; margin-left: 10px; background: red; color: white; border: none;">LOGOUT</button>
+  </div>
+
+  <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+    <img src="MySymbol.png" style="max-height: 550px; width: 40%;">
+    <img src="Hacker.png" style="max-height: 550px; width: 40%;">
+  </div>
+
+  <center> 
+    <h1 style="color: white; font-family: monospace; font-size: 45px; text-shadow: 0 0 10px #f00;">ZachFire's Coding Database</h1>
+    <h2 style="color: red; font-family: monospace; font-size: 20px; text-shadow: 0 0 10px #f00;">ZachFire's Projects</h2>
+    
+    <a style="color: red; font-size: 25px; text-decoration: none;" href="Encoding&DecodingSoftware.html" target="_blank">[ OPEN ENCODER / DECODER ]</a> <br><br>
+    <a style="color: red; font-size: 25px; text-decoration: none;" href="DarkKnightPrank.html" target="_blank">[ OPEN DARK KNIGHT PRANK ]</a> <br><br>
+    <a style="color: red; font-size: 25px; text-decoration: none;" href="RandomTest1.html" target="_blank">[ OPEN RANDOM TEST 1 ]</a> <br><br>
+    <a style="color: red; font-size: 25px; text-decoration: none;" href="TheDeathCircle.html" target="_blank">[ OPEN THE DEATH CIRCLE DATASHEETS ]</a> <br><br>
+    <a style="color: red; font-size: 25px; text-decoration: none;" href="SystemScannerV1.0.html" target="_blank">[ OPEN SYSTEM SCANNER V1.0 ]</a> <br><br>
+    <a style="color: red; font-size: 25px; text-decoration: none;" href="Scammergetscammed.html" target="_blank" >[ OPEN SCAMMER GET SCAMMED ]</a> <br><br>
+     
+    <hr style="border-color: #0f0; margin: 40px 0;">
+    
+    <!-- SCHOOL PORTAL -->
+    <div style="border: 2px solid #0f0; padding: 20px; background: rgba(0,20,0,0.8);">
+        <h3 style="color: #0f0;">ACCESS GRANTED: STUDENT PORTAL</h3>
+        <p style="color: #fff;">Welcome, Agent. Select your mission:</p>
+        
+        <a href="lesson1.html" style="color: #0f0; font-weight: bold; font-size: 20px; text-decoration: none;">[ LEVEL 1: THE SKELETON ]</a> <br><br>
+        <a href="lesson2.html" style="color: #0f0; font-weight: bold; font-size: 20px; text-decoration: none;">[ LEVEL 2: THE STYLE ]</a> <br><br>
+        <a href="lesson3.html" style="color: #0f0; font-weight: bold; font-size: 20px; text-decoration: none;">[ LEVEL 3: THE BRAIN (JS) ]</a> <br><br>
+        <a href="lesson4.html" style="color: #0f0; font-weight: bold; font-size: 20px; text-decoration: none;">[ LEVEL 4: INTELLIGENCE ]</a> <br><br>
+        <a href="lesson5.html" style="color: #0f0; font-weight: bold; font-size: 20px; text-decoration: none;">[ LEVEL 5: GHOST WRITER ]</a>
+    </div>
+  </center>
+</div>
+
+<script>
+    // --- 1. THE AGENT DATABASE (ENCRYPTED) ---
+    const agentDatabase = {
+        "zachfire": "-1212561931", 
+        "silky": "-1878792048",    
+        "me": "3676",       
+        "guest": "98708952"  
+    };
+    
+    const adminEmail = "zacharyquack49@gmail.com"; 
+    
+    // --- 2. THE ENCRYPTION ENGINE ---
+    function getHash(inputString) {
+        let hash = 0;
+        if (inputString.length === 0) return hash;
+        for (let i = 0; i < inputString.length; i++) {
+            let char = inputString.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; 
+        }
+        return hash.toString();
+    }
+
+    // --- 3. LOGIN LOGIC ---
+    function attemptLogin() {
+        let name = document.getElementById("agent-name").value.toLowerCase().trim(); 
+        let pass = document.getElementById("pass-input").value;
+        let errorBox = document.getElementById("error-msg");
+
+        if (agentDatabase[name]) {
+            let inputHash = getHash(pass);
+            let storedHash = agentDatabase[name];
+
+            if (inputHash === storedHash) {
+                localStorage.setItem("agentName", name);
+                unlockSystem(name);
+            } else {
+                errorBox.innerText = "ACCESS DENIED: WRONG PASSWORD";
+                document.getElementById("login-screen").style.border = "2px solid red";
+            }
+        } else {
+            errorBox.innerText = "ACCESS DENIED: AGENT NOT FOUND";
+            document.getElementById("login-screen").style.border = "2px solid red";
+        }
+    }
+
+    function requestAccess() {
+        prompt("COPY THIS EMAIL AND CREATE [ONLY LOWERCASE LETTERS] USERNAME AND [ANY] PASSWORD TO REQUEST ACCESS:", adminEmail);
+    }
+
+    function unlockSystem(name) {
+        document.getElementById("login-screen").style.display = "none";
+        document.getElementById("main-content").style.display = "block";
+        document.getElementById("agent-badge").style.display = "block";
+        document.getElementById("badge-name").innerText = name.toUpperCase();
+    }
+
+    function logout() {
+        localStorage.removeItem("agentName");
+        location.reload();
+    }
+
+    // Check if already logged in
+    window.onload = function() {
+        let savedUser = localStorage.getItem("agentName");
+        if (savedUser) unlockSystem(savedUser);
+        startMatrix();
+    }
+
+    // --- 4. MATRIX ANIMATION (FIXED) ---
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    function startMatrix() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Expanded charset for better effect
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function draw() {
+            // Black background with opacity to create trail
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0F0'; // Green Text
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                // Randomly reset drop to top
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                // THIS WAS MISSING: Move the drop down
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 33);
+    }
+</script>
+</body>
+</html>
