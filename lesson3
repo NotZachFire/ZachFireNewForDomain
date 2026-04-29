@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>Training Program: Level 3</title>
+<link rel="icon" type="image/png" href="MySymbol.png">
+
+<style>
+  /* START STATE: LOCKED (RED) */
+  body { 
+      font-family: monospace; 
+      background-color: #220000; 
+      color: #ff0000;            
+      padding: 40px; 
+      text-align: center;
+      transition: 2s; 
+  }
+
+  h1 { border-bottom: 2px solid red; padding-bottom: 10px; }
+  
+  /* EXPLANATION BOX (NEW) */
+  .briefing {
+      border: 1px dashed #ff0000;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      text-align: left;
+      background: #110000;
+  }
+
+  /* THE BUTTON STYLE */
+  button {
+      padding: 15px 30px;
+      font-family: monospace;
+      font-size: 20px;
+      background: black;
+      color: red;
+      border: 2px solid red;
+      cursor: pointer;
+      margin-top: 20px;
+  }
+  
+  button:hover { background: red; color: black; }
+
+  /* NAVIGATION */
+  .nav { margin-top: 50px; }
+  .nav a { color: inherit; text-decoration: none; border: 1px solid; padding: 10px; margin: 10px; }
+</style>
+</head>
+<body>
+
+<h1 id="status-text">SYSTEM LOCKDOWN ACTIVE</h1>
+
+<!-- THE LESSON PART (THIS WAS MISSING) -->
+<div class="briefing">
+    <h3>CLASSIFIED BRIEFING: JAVASCRIPT</h3>
+    <p>HTML is the skeleton. CSS is the skin. <strong>JavaScript is the BRAIN.</strong></p>
+    <br>
+    <p>To make the page react, we use two things:</p>
+    <p>1. <strong>The Trigger:</strong> <code>onclick="..."</code> (When you click the button)</p>
+    <p>2. <strong>The Action:</strong> <code>function hackSystem()</code> (The code that runs)</p>
+</div>
+
+<div class="briefing" style="border-color: white; color: white;">
+    <h3>YOUR MISSION</h3>
+    <p>1. Open this file in your code editor.</p>
+    <p>2. Scroll down to the <code>&lt;script&gt;</code> section.</p>
+    <p>3. Find the <code>alert("SYSTEM HACKED SUCCESSFULLY")</code> line.</p>
+    <p>4. Change the message to say <strong>"I AM IN"</strong>.</p>
+</div>
+
+<!-- THE TRIGGER -->
+<button onclick="hackSystem()">INITIATE OVERRIDE</button>
+
+<div class="nav">
+    <a href="lesson2.html">PREVIOUS LEVEL</a>
+    <a href="index.html">RETURN TO BASE</a>
+</div>
+
+<script>
+  // --- CLASSIFIED: JAVASCRIPT LOGIC ---
+  // This function runs when the button is clicked
+  
+  function hackSystem() {
+      // 1. Change the background to Hacker Black
+      document.body.style.backgroundColor = "#000000";
+      
+      // 2. Change the text color to Hacker Green
+      document.body.style.color = "#00ff00";
+      
+      // 3. Find the Headline (h1) and change the text
+      document.getElementById("status-text").innerText = "ACCESS GRANTED";
+      
+      // 4. Change the button border to match
+      document.querySelector("button").style.borderColor = "#00ff00";
+      document.querySelector("button").style.color = "#00ff00";
+      
+      // 5. Send a popup alert
+      alert("SYSTEM HACKED SUCCESSFULLY.");
+  }
+</script>
+
+</body>
+</html>
