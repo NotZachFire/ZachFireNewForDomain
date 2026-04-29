@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>The Death Circle</title>
+
+<style>
+body { font-family: monospace; background: #111; color: #f00; padding: 20px; }
+    input, textarea, button { font-family: monospace; font-size: 20px; margin: 100px 0; width: 100%; }
+    button { cursor: pointer; }
+</style>
+
+</head>
+<body>
+
+<h1 style="color: white; font-family: monospace; font-size: 45px; text-align: center; text-shadow: 0 0 10px #f00;">The Death Circle</h1>
+
+<center>
+  <h1 style="color:red; font-family: courier;">Datasheets</h1>
+
+  <!-- SECTION 1 -->
+  <button onclick="showArchetypes()" style="width: 1000px;">Click to see Archetypes</button>
+  <h2 id="archetype-output" style="color:red; font-family: courier;"></h2>
+
+  <br><br>
+
+  <!-- SECTION 2 -->
+  <button onclick="showGnomes()" style="width: 1000px;">Click to see Gnomes Datasheets</button>
+  <h2 id="gnome-output" style="color:red; font-family: courier;"></h2>
+
+  <br><br>
+
+  <!-- SECTION 3 -->
+  <button onclick="showBarbarians()" style="width: 1000px;">Click to see Barbarians Datasheets</button>
+  <h2 id="barbarian-output" style="color:red; font-family: courier;"></h2>
+
+  <br><br>
+
+  <!-- SECTION 4 -->
+
+  <script>
+    function showArchetypes() {
+      document.getElementById("archetype-output").innerHTML = "For each picked character you may assign them an archetype, changing  their stats for a buff in a way of doing something.    Punchy - melee +1 D.    Shooty - range +5 R +1AC.   Buffy - tank +2 DF(up to 2+ SV) -1 movement.    Athletic - +4 movement  -1SV.   Magician - All magical spells have D3 extra damage and +3R but your DF is 5+. (NOT COMPATIBLE WITH BARBARIAN)   Sneaky - +3M, 3D (if attacking behind cover), -1D if not.   Healer - Get a healing spell, +2HP, but -1D. (NOT COMPATIBLE WITH BARBARIAN)";
+}
+
+    function showGnomes() {
+      document.getElementById("gnome-output").innerHTML = "Gnomes (all gnomes have +3 M)        The Clown - HP 4, AC 3+, DF 3+, - Toy Hammer, R2, D2, A3 - Explosive Balloon, R6, D3, A1. ABILITY - You've been gnomed! - teleport to any player on the map for 1 SP. (permission or not)         The Forager - HP 5, AC 3+, DF 4+, - Handmade Dagger, R-melee, A3, D1 - Flimsy Bow, R10, A3, D1. ABILITY - Survival Instincts - The Forager has +2 item slots and upon losing half of their health, has +6M and can +1A.        The Peasant - HP 4, AC 3+, DF 4+, - Pitchfork (twig), R3, D1, A3 - Pebbles, R10, D1, A5. ABILITY - Hard Labour - This character can carry +2 items at the cost of -2 movement.";
+}
+
+    function showBarbarians() {
+      document.getElementById("barbarian-output").innerHTML = "BARBARIAN (All barbarians have -2 M, +2D)        Mighty warrior: HP 6, AC 3+, DF 3+ - Spiteful glare R- 7, A- 1, D-1 - Axe R- melee, A- 3, D- 1. Abilities - Never let your pride fail - When your HP is half its original value your melee weapons automatically hit.       Ragnar the great: -1M, HP 7, AC 3+, DF 3+ - O’mighty axe- 2A,R-melee,3D - Boomeraxe- 3A,R6,1D. Ability - Bloodlust- on a 6+ your hits penetrate automatically.      Scout: +1 inventory slot, +6M, AC 4+, DF 5+ - Short knife A1,R-melee,2D - Flintlock A1,R7,D1. Ability - Thievery - For 1 sp, you may take one item from each player within 6” of you.";
+}
+
+</script>
+</center>
