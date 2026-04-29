@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LEVEL 4: INTELLIGENCE</title>
+    <link rel="icon" type="image/png" href="MySymbol.png">
+    <style>
+        /* --- THE MATRIX STYLE --- */
+        body { background-color: black; color: #0f0; font-family: 'Courier New', monospace; padding: 20px; }
+        
+        /* THE CHAT TERMINAL */
+        #terminal {
+            border: 2px solid #0f0;
+            background: rgba(0, 20, 0, 0.9);
+            height: 400px;
+            overflow-y: scroll; /* Allows scrolling */
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        /* MESSAGES */
+        .msg-system { color: #0f0; margin: 5px 0; } /* Green for Computer */
+        .msg-user { color: #fff; margin: 5px 0; text-align: right; } /* White for You */
+
+        /* INPUT AREA */
+        input { 
+            width: 80%; 
+            padding: 10px; 
+            background: #111; 
+            border: 1px solid #0f0; 
+            color: #fff; 
+            font-family: monospace; 
+            font-size: 16px;
+        }
+        
+        button {
+            width: 18%;
+            padding: 10px;
+            background: #0f0;
+            color: black;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background: white; }
+
+        h1 { text-shadow: 0 0 5px #0f0; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" style="color: gray; text-decoration: none;">[ < BACK TO BASE ]</a>
+
+    <h1>PROJECT Z.A.C.H. (A.I.)</h1>
+    <p style="text-align: center; color: #888;">TYPE A COMMAND. THE SYSTEM IS LISTENING.</p>
+
+    <!-- THE CHAT BOX -->
+    <div id="terminal">
+        <div class="msg-system">SYSTEM: Z.A.C.H. ONLINE. AWAITING INPUT...</div>
+    </div>
+
+    <!-- THE INPUT -->
+    <center>
+        <input type="text" id="user-input" placeholder="Type 'help' for commands..." onkeydown="if(event.key==='Enter') sendMessage()">
+        <button onclick="sendMessage()">SEND</button>
+    </center>
+
+<script>
+   
+    // --- Z.A.C.H. v2.0: ADVANCED INTELLIGENCE ---
+    
+    // 1. THE MEMORY BANK (Arrays)
+    // This allows the bot to pick a random answer so it doesn't get boring.
+    const jokes = [
+        "My code doesn't work, I have no idea why. My code works, I have no idea why.",
+        "There are 2 types of people in the world: Those who understand binary, and those who don't.",
+        "Hacking is just Googling error messages until the scary red text goes away.",
+        "I told the computer I needed a break... it froze.",
+        "A computer once beat me at chess, but it was no match for me at kickboxing.",
+        "User: 'I forgot my password.' Admin: 'Have you tried 123456?' User: 'OMG IT WORKED!'"
+    ];
+
+    const threats = [
+        "I AM WATCHING YOU.",
+        "DO NOT MAKE ME DELETE YOUR SYSTEM32 FOLDER.",
+        "I KNOW YOUR BROWSER HISTORY. IT IS... INTERESTING.",
+        "TARGET LOCKED. PREPARING LASERS."
+    ];
+
+    function sendMessage() {
+        let inputField = document.getElementById("user-input");
+        let terminal = document.getElementById("terminal");
+        
+        // Clean the input
+        let rawText = inputField.value;
+        let command = rawText.toLowerCase().trim();
+        
+        if (command === "") return;
+
+        // Add USER message
+        terminal.innerHTML += `<div class='msg-user'>USER: ${rawText}</div>`;
+        inputField.value = ""; // Clear box
+
+        // --- THE NEW BRAIN ---
+            // --- THE SASSY FALLBACK ---
+    const confusion = [
+        "SYSTEM: I DO NOT SPEAK HUMAN.",
+        "SYSTEM: YOUR IQ IS TOO LOW FOR ME TO UNDERSTAND.",
+        "SYSTEM: ARE YOU MASHING THE KEYBOARD?",
+        "SYSTEM: ERROR. TRY ASKING INTELLIGENTLY.",
+        "SYSTEM: I AM IGNORING YOU.",
+        "SYSTEM: STOP WASTING MY TIME.",
+        "SYSTEM: YOU ARE UNIMPORTANT.",
+        "SYSTEM: YOUR LIFE IS THE DEFENITION OF A PARTICIPATION AWARD.",
+    ];
+    
+    // Pick a random insult if it doesn't know the command
+    let reply = confusion[Math.floor(Math.random() * confusion.length)];
+
+        
+        // LOGIC 1: FUZZY MATCHING (It understands 'hi', 'hello', 'hey')
+        if (command.includes("hello") || command.includes("hi") || command.includes("hey")) {
+            reply = "SYSTEM: GREETINGS, ADMIN. SYSTEMS NORMAL.";
+        }
+        
+        // LOGIC 2: TELLING TIME (Dynamic Data)
+        else if (command.includes("time")) {
+            let now = new Date();
+            reply = "SYSTEM: THE CURRENT TIME IS " + now.toLocaleTimeString();
+        }
+        else if (command.includes("date")) {
+            let now = new Date();
+            reply = "SYSTEM: TODAY IS " + now.toLocaleDateString();
+        }
+
+        // LOGIC 3: RANDOMNESS (Jokes & Threats)
+        else if (command.includes("joke")) {
+            // Math.random() picks a random number
+            let randomNum = Math.floor(Math.random() * jokes.length); 
+            reply = "SYSTEM: " + jokes[randomNum];
+        }
+        else if (command.includes("scare me") || command.includes("threat")) {
+            let randomNum = Math.floor(Math.random() * threats.length); 
+            reply = "SYSTEM: " + threats[randomNum];
+        }
+
+        // LOGIC 4: HACKING THE WEBSITE (DOM Manipulation)
+        else if (command === "red mode") {
+            document.body.style.color = "red";
+            document.body.style.borderColor = "red";
+            reply = "SYSTEM: ALERT LEVEL RAISED TO RED.";
+        }
+        else if (command === "green mode") {
+            document.body.style.color = "#0f0";
+            document.body.style.borderColor = "#0f0";
+            reply = "SYSTEM: SYSTEM STABILIZED (GREEN).";
+        }
+        else if (command === "blue mode") {
+            document.body.style.color = "cyan";
+            document.body.style.borderColor = "cyan";
+            reply = "SYSTEM: COOLING SYSTEMS ACTIVE (BLUE).";
+        }
+
+        // LOGIC 5: UTILITY
+        else if (command === "help") {
+            reply = "COMMANDS: TIME, DATE, JOKE, SCARE ME, RED MODE, BLUE MODE, CLEAR";
+        }
+        else if (command === "clear") {
+            terminal.innerHTML = "";
+            reply = "SYSTEM: MEMORY WIPED.";
+        }
+
+        // OUTPUT
+        setTimeout(() => {
+            terminal.innerHTML += `<div class='msg-system'>${reply}</div>`;
+            terminal.scrollTop = terminal.scrollHeight; 
+        }, 500);
+    }
+</script>
+</body>
+</html>
