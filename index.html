@@ -58,10 +58,6 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
 .msg-success { color: #0f0; }
 .msg-info { color: #ff0; }
 
-/* DIVIDER */
-.or-divider { color: #0a0; font-size: 12px; margin: 14px 0; letter-spacing: 2px; }
-
-
 /* VERIFICATION NOTICE */
 #verify-notice {
     display: none;
@@ -113,33 +109,28 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         <button class="tab-btn active" onclick="switchTab('login')">[ LOGIN ]</button>
         <button class="tab-btn" onclick="switchTab('register')">[ REGISTER ]</button>
     </div>
+
+    <!-- EMAIL INPUT -->
+    <input type="email" id="email-input" placeholder="ENTER EMAIL ADDRESS...">
+
+    <!-- PASSWORD INPUT -->
+    <input type="password" id="pass-input" placeholder="ENTER PASSWORD...">
+
+    <!-- CONFIRM PASSWORD (register only) -->
+    <div id="confirm-wrap" style="display:none;">
+        <input type="password" id="confirm-input" placeholder="CONFIRM PASSWORD...">
     </div>
 
     <!-- MAIN ACTION BUTTON -->
     <button class="primary-btn" id="action-btn" onclick="handleAction()">AUTHENTICATE</button>
 
     <!-- FORGOT PASSWORD (login only) -->
-    <button class="forgot-link" id="forgot-link" onclick="handleForgot()">Forgot password? Contact me at zacharyquack49@gmail.com</button>
-
-    <!-- DIVIDER -->
-    <div class="or-divider">— OR —</div>
-
-    <!-- GOOGLE SIGN IN -->
-    <button class="google-btn" onclick="handleGoogle()">
-        <svg class="google-icon" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-        </svg>
-        CONTINUE WITH GOOGLE
-    </button>
+    <button class="forgot-link" id="forgot-link" onclick="handleForgot()">Forgot password? Email zacharyquack49@gmail.com</button>
 
     <!-- VERIFICATION NOTICE -->
     <div id="verify-notice">
-        VERIFICATION EMAIL SENT.<br>
-        Check your inbox and click the link to activate your account.<br>
-        <small style="color:#aa0">(Check spam if you don't see it)</small>
+        ACCOUNT CREATED.<br>
+        You can now log in!<br>
     </div>
 
     <!-- MESSAGE BOX -->
@@ -161,6 +152,7 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
 
     <center>
         <h1 style="color:white;font-family:monospace;font-size:45px;text-shadow:0 0 10px #f00;">ZachFire's Coding Database</h1>
+
         <div style="border:2px solid #0f0;padding:20px;background:rgba(0,20,0,0.8);">
             <h3 style="color:#0f0;">ACCESS GRANTED: STUDENT PORTAL</h3>
             <p style="color:#fff;">Welcome, Agent. Select your mission:</p>
@@ -168,6 +160,7 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
             <a href="lesson2.html" style="color:#0f0;font-weight:bold;font-size:20px;text-decoration:none;">[ LEVEL 2: THE STYLE ]</a><br><br>
             <a href="lesson3.html" style="color:#0f0;font-weight:bold;font-size:20px;text-decoration:none;">[ LEVEL 3: THE BRAIN (JS) ]</a><br><br>
             <a href="lesson4.html" style="color:#0f0;font-weight:bold;font-size:20px;text-decoration:none;">[ LEVEL 4: INTELLIGENCE ]</a><br><br>
+            <a href="lesson5.html" style="color:#0f0;font-weight:bold;font-size:20px;text-decoration:none;">[ LEVEL 5: GHOST WRITER ]</a>
         </div>
 
         <hr style="border-color:#0f0;margin:40px 0;">
@@ -187,17 +180,11 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-    // ============================================================
-    // SUPABASE CONFIG
-    // ============================================================
     const SUPABASE_URL = 'https://zlmzfjtqavegehenmsgj.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Z8Rk_w-UUMjfuXrbmjMDAg_I4GCiXp4';
     const { createClient } = supabase;
     const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // ============================================================
-    // TAB SWITCHING
-    // ============================================================
     let currentTab = 'login';
 
     function switchTab(tab) {
@@ -211,9 +198,6 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         setMsg('', '');
     }
 
-    // ============================================================
-    // MESSAGES
-    // ============================================================
     function setMsg(text, type) {
         const el = document.getElementById('msg');
         el.textContent = text;
@@ -226,10 +210,10 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         btn.textContent = on ? 'PROCESSING...' : (currentTab === 'login' ? 'AUTHENTICATE' : 'CREATE ACCOUNT');
     }
 
-    // ============================================================
-    // LOGIN / REGISTER
-    // ============================================================
-    
+    async function handleAction() {
+        const email = document.getElementById('email-input').value.trim();
+        const pass = document.getElementById('pass-input').value;
+        if (!email || !pass) { setMsg('ALL FIELDS REQUIRED', 'error'); return; }
         if (currentTab === 'register') {
             const confirm = document.getElementById('confirm-input').value;
             if (pass !== confirm) { setMsg('PASSWORDS DO NOT MATCH', 'error'); return; }
@@ -248,7 +232,7 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
             setMsg('ERROR: ' + error.message.toUpperCase(), 'error');
         } else {
             document.getElementById('verify-notice').style.display = 'block';
-            setMsg('ACCOUNT CREATED.', 'success');
+            setMsg('', '');
         }
     }
 
@@ -257,31 +241,16 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
         setLoading(false);
         if (error) {
-            if (error.message.includes('Email not confirmed')) {
-                setMsg('VERIFY YOUR EMAIL FIRST', 'error');
-            } else {
-                setMsg('ACCESS DENIED: ' + error.message.toUpperCase(), 'error');
-            }
+            setMsg('ACCESS DENIED: ' + error.message.toUpperCase(), 'error');
         } else {
             unlockSystem(data.user);
         }
     }
 
-    // ============================================================
-    // GOOGLE LOGIN
-    // ============================================================
-    async function handleGoogle() {
-        const { error } = await sb.auth.signInWithOAuth({
-            provider: 'google',
-            options: { redirectTo: window.location.href }
-        });
-        if (error) setMsg('GOOGLE ERROR: ' + error.message.toUpperCase(), 'error');
+    async function handleForgot() {
+        setMsg('EMAIL zacharyquack49@gmail.com TO RESET YOUR PASSWORD', 'info');
     }
 
-    
-    // ============================================================
-    // UNLOCK SITE
-    // ============================================================
     function unlockSystem(user) {
         document.getElementById('auth-screen').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
@@ -290,31 +259,20 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         document.getElementById('badge-name').textContent = name;
     }
 
-    // ============================================================
-    // LOGOUT
-    // ============================================================
     async function handleLogout() {
         await sb.auth.signOut();
         location.reload();
     }
 
-    // ============================================================
-    // SESSION CHECK ON LOAD
-    // ============================================================
     window.onload = async function() {
         startMatrix();
         const { data: { session } } = await sb.auth.getSession();
         if (session) unlockSystem(session.user);
-
-        // Handle OAuth redirect
         sb.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) unlockSystem(session.user);
         });
     }
 
-    // ============================================================
-    // MATRIX ANIMATION
-    // ============================================================
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
 
@@ -325,7 +283,6 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         const fontSize = 14;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
-
         function draw() {
             ctx.fillStyle = 'rgba(0,0,0,0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -341,7 +298,6 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         setInterval(draw, 33);
     }
 
-    // Allow pressing Enter to submit
     document.addEventListener('keydown', e => {
         if (e.key === 'Enter') handleAction();
     });
