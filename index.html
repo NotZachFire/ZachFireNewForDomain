@@ -269,7 +269,7 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         }
     }
 // FORGOT PASSWORD//
- async function handleForgot() {
+async function handleForgot() {
     const email = document.getElementById('email-input').value.trim();
 
     if (!email) {
@@ -279,17 +279,19 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
 
     setLoading(true);
 
-    const { error } = await sb.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin
-    });
+    try {
+        const res = await fetch('YOUR_FUNCTION_URL', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+
+        setMsg('RESET EMAIL SENT', 'success');
+    } catch (err) {
+        setMsg('FAILED TO SEND EMAIL', 'error');
+    }
 
     setLoading(false);
-
-    if (error) {
-        setMsg('ERROR: ' + error.message.toUpperCase(), 'error');
-    } else {
-        setMsg('PASSWORD RESET EMAIL SENT', 'success');
-    }
 }
     // ============================================================
     // UNLOCK SITE
