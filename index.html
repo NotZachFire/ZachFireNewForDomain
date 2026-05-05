@@ -61,14 +61,6 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
 /* DIVIDER */
 .or-divider { color: #0a0; font-size: 12px; margin: 14px 0; letter-spacing: 2px; }
 
-/* GOOGLE BTN */
-.google-btn {
-    background: transparent; border: 1px solid #555; color: #aaa;
-    padding: 11px; font-size: 14px; display: flex; align-items: center;
-    justify-content: center; gap: 10px; margin-top: 0;
-}
-.google-btn:hover { border-color: #0f0; color: #0f0; background: rgba(0,255,0,0.05); }
-.google-icon { width: 18px; height: 18px; flex-shrink: 0; }
 
 /* VERIFICATION NOTICE */
 #verify-notice {
@@ -121,16 +113,6 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         <button class="tab-btn active" onclick="switchTab('login')">[ LOGIN ]</button>
         <button class="tab-btn" onclick="switchTab('register')">[ REGISTER ]</button>
     </div>
-
-    <!-- EMAIL INPUT (shared) -->
-    <input type="email" id="email-input" placeholder="ENTER EMAIL ADDRESS...">
-
-    <!-- PASSWORD INPUT (shared) -->
-    <input type="password" id="pass-input" placeholder="ENTER PASSWORD...">
-
-    <!-- CONFIRM PASSWORD (register only) -->
-    <div id="confirm-wrap" style="display:none;">
-        <input type="password" id="confirm-input" placeholder="CONFIRM PASSWORD...">
     </div>
 
     <!-- MAIN ACTION BUTTON -->
@@ -247,12 +229,7 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
     // ============================================================
     // LOGIN / REGISTER
     // ============================================================
-    async function handleAction() {
-        const email = document.getElementById('email-input').value.trim();
-        const pass = document.getElementById('pass-input').value;
-
-        if (!email || !pass) { setMsg('ALL FIELDS REQUIRED', 'error'); return; }
-
+    
         if (currentTab === 'register') {
             const confirm = document.getElementById('confirm-input').value;
             if (pass !== confirm) { setMsg('PASSWORDS DO NOT MATCH', 'error'); return; }
