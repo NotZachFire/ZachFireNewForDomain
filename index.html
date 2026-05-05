@@ -268,11 +268,29 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
             unlockSystem(data.user);
         }
     }
+// FORGOT PASSWORD//
+ async function handleForgot() {
+    const email = document.getElementById('email-input').value.trim();
 
-   async function handleForgot() {
-    setMsg('EMAIL zacharyquack49@gmail.com TO RESET YOUR PASSWORD', 'info');
+    if (!email) {
+        setMsg('ENTER YOUR EMAIL FIRST', 'error');
+        return;
+    }
+
+    setLoading(true);
+
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin
+    });
+
+    setLoading(false);
+
+    if (error) {
+        setMsg('ERROR: ' + error.message.toUpperCase(), 'error');
+    } else {
+        setMsg('PASSWORD RESET EMAIL SENT', 'success');
+    }
 }
-    
     // ============================================================
     // UNLOCK SITE
     // ============================================================
