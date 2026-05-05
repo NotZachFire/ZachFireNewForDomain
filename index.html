@@ -137,7 +137,7 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
     <button class="primary-btn" id="action-btn" onclick="handleAction()">AUTHENTICATE</button>
 
     <!-- FORGOT PASSWORD (login only) -->
-    <button class="forgot-link" id="forgot-link" onclick="handleForgot()">Forgot password?</button>
+    <button class="forgot-link" id="forgot-link" onclick="handleForgot()">Forgot password? Contact me at zacharyquack49@gmail.com</button>
 
     <!-- DIVIDER -->
     <div class="or-divider">— OR —</div>
@@ -301,22 +301,7 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         if (error) setMsg('GOOGLE ERROR: ' + error.message.toUpperCase(), 'error');
     }
 
-    // ============================================================
-    // FORGOT PASSWORD
-    // ============================================================
-    async function handleForgot() {
-        const email = document.getElementById('email-input').value.trim();
-        if (!email) { setMsg('ENTER YOUR EMAIL FIRST', 'error'); return; }
-        const { error } = await sb.auth.resetPasswordForEmail(email, {
-            redirectTo: window.location.href
-        });
-        if (error) {
-            setMsg('ERROR: ' + error.message.toUpperCase(), 'error');
-        } else {
-            setMsg('RESET LINK SENT TO ' + email.toUpperCase(), 'success');
-        }
-    }
-
+    
     // ============================================================
     // UNLOCK SITE
     // ============================================================
