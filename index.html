@@ -58,8 +58,6 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
 .msg-success { color: #0f0; }
 .msg-info { color: #ff0; }
 
-
-
 /* VERIFICATION NOTICE */
 #verify-notice {
     display: none;
@@ -108,36 +106,30 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
 
     <!-- LOGIN / REGISTER TABS -->
     <div class="tab-row">
-        <button class="tab-btn active" onclick="switchTab('login')">[ LOGIN ]</button>
-        <button class="tab-btn" onclick="switchTab('register')">[ REGISTER ]</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'login')">[ LOGIN ]</button>
+        <button class="tab-btn" onclick="switchTab(event, 'register')">[ REGISTER ]</button>
     </div>
 
     <!-- EMAIL INPUT (shared) -->
-    <input type="email" id="email-input" placeholder="ENTER EMAIL ADDRESS...">
+    <input type="email" id="email-input" placeholder="ENTER EMAIL ADDRESS..." autocomplete="email">
 
     <!-- PASSWORD INPUT (shared) -->
-    <input type="password" id="pass-input" placeholder="ENTER PASSWORD...">
+    <input type="password" id="pass-input" placeholder="ENTER PASSWORD..." autocomplete="current-password">
 
     <!-- CONFIRM PASSWORD (register only) -->
     <div id="confirm-wrap" style="display:none;">
-        <input type="password" id="confirm-input" placeholder="CONFIRM PASSWORD...">
+        <input type="password" id="confirm-input" placeholder="CONFIRM PASSWORD..." autocomplete="new-password">
     </div>
 
     <!-- MAIN ACTION BUTTON -->
     <button class="primary-btn" id="action-btn" onclick="handleAction()">AUTHENTICATE</button>
 
     <!-- FORGOT PASSWORD (login only) -->
-<p style="color:#0a0;font-size:12px;margin:8px 0;">— OR —</p>
-<button class="forgot-link" id="forgot-link" onclick="handleForgot()">Forgot password?</button>
-
-    
+    <p style="color:#0a0;font-size:12px;margin:8px 0;">— OR —</p>
+    <button class="forgot-link" id="forgot-link" onclick="handleForgot()">Forgot password?</button>
 
     <!-- VERIFICATION NOTICE -->
-    <div id="verify-notice">
-        EMAIL zacharyquack49@gmail.com TO RESET YOUR PASSWORD <br>
-       IT CAN TAKE SOME TIME FOR ME TO RESET YOUR ACCOUNT<br>
-        <small style="color:#aa0">(Check spam if you don't see it)</small>
-    </div>
+    <div id="verify-notice"></div>
 
     <!-- MESSAGE BOX -->
     <div id="msg"></div>
@@ -197,7 +189,7 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
     // ============================================================
     let currentTab = 'login';
 
-    function switchTab(tab) {
+    function switchTab(event, tab) {
         currentTab = tab;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         event.target.classList.add('active');
@@ -249,7 +241,9 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
         if (error) {
             setMsg('ERROR: ' + error.message.toUpperCase(), 'error');
         } else {
-            document.getElementById('verify-notice').style.display = 'block';
+            const notice = document.getElementById('verify-notice');
+            notice.innerHTML = `CHECK YOUR INBOX AT <b>${email}</b> TO VERIFY YOUR ACCOUNT.<br><small style="color:#aa0">(Check spam if you don't see it)</small>`;
+            notice.style.display = 'block';
             setMsg('ACCOUNT CREATED.', 'success');
         }
     }
@@ -268,31 +262,34 @@ input:focus { outline: none; border-color: #fff; box-shadow: 0 0 8px rgba(0,255,
             unlockSystem(data.user);
         }
     }
-// FORGOT PASSWORD//
-async function handleForgot() {
-    const email = document.getElementById('email-input').value.trim();
 
-    if (!email) {
-        setMsg('ENTER YOUR EMAIL FIRST', 'error');
-        return;
-    }
+    // ============================================================
+    // FORGOT PASSWORD — uses Supabase built-in reset
+    // ============================================================
+    async function handleForgot() {
+        const email = document.getElementById('email-input').value.trim();
 
-    setLoading(true);
+        if (!email) {
+            setMsg('ENTER YOUR EMAIL FIRST', 'error');
+            return;
+        }
 
-    try {
-        const res = await fetch('YOUR_FUNCTION_URL', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email })
+        setLoading(true);
+        const { error } = await sb.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + '/reset-password.html'
         });
+        setLoading(false);
 
-        setMsg('RESET EMAIL SENT', 'success');
-    } catch (err) {
-        setMsg('FAILED TO SEND EMAIL', 'error');
+        if (error) {
+            setMsg('ERROR: ' + error.message.toUpperCase(), 'error');
+        } else {
+            const notice = document.getElementById('verify-notice');
+            notice.innerHTML = `PASSWORD RESET EMAIL SENT TO <b>${email}</b>.<br>Follow the link in the email to set a new password.<br><small style="color:#aa0">(Check spam if you don't see it)</small>`;
+            notice.style.display = 'block';
+            setMsg('RESET EMAIL SENT.', 'success');
+        }
     }
 
-    setLoading(false);
-}
     // ============================================================
     // UNLOCK SITE
     // ============================================================
@@ -315,24 +312,7 @@ async function handleForgot() {
     // ============================================================
     // SESSION CHECK ON LOAD
     // ============================================================
-    window.onload = async function() {
-        startMatrix();
-        const { data: { session } } = await sb.auth.getSession();
-        if (session) unlockSystem(session.user);
-
-        // Handle OAuth redirect
-        sb.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN' && session) unlockSystem(session.user);
-        });
-    }
-
-    // ============================================================
-    // MATRIX ANIMATION
-    // ============================================================
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-
-    function startMatrix() {
+    function initMatrix() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -355,7 +335,27 @@ async function handleForgot() {
         setInterval(draw, 33);
     }
 
-    // Allow pressing Enter to submit
+    async function initAuth() {
+        const { data: { session } } = await sb.auth.getSession();
+        if (session) unlockSystem(session.user);
+
+        sb.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN' && session) unlockSystem(session.user);
+        });
+    }
+
+    window.onload = function() {
+        initMatrix();
+        initAuth();
+    };
+
+    // ============================================================
+    // MATRIX ANIMATION
+    // ============================================================
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    // Allow pressing Enter to submit (login/register only, not forgot)
     document.addEventListener('keydown', e => {
         if (e.key === 'Enter') handleAction();
     });
